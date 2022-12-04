@@ -76,7 +76,7 @@ Wage_arith=copy(NumPeople)
 Wage_geo=copy(NumPeople)
 Var_lnIncome=copy(NumPeople)
 Var_lnWage=copy(NumPeople)
-print("Putting earnings / wage in $2009 constant using PCE Deflator")
+print("Putting earnings / wage in \$2009 constant using PCE Deflator")
 # See PCEDeflatorNIPA.txt from https://research.stlouisfed.org/fred2/series/DPCERD3A086NBEA
 pce=[17.535,22.311,43.959,67.44,83.131,101.653]
 
