@@ -13,7 +13,9 @@ using DataFrames
 
 
 if ~@isdefined CaseName
-    CaseName=input("What would you like to call the Case Name?")
+    println("What would you like to call the CaseName?\n")
+    CaseName = readline()
+    print("CaseName=\n ",CaseName,'\n')
 end
 
 
@@ -33,9 +35,11 @@ end
 
 
 file = CSV.read("C:\\Users\\liu_z\\Talent_python\\chad_output_file_2019_01_24.csv", DataFrame)
+for c ∈ eachcol(file)
+    replace!(c, missing => NaN)
+end
 # file = CSV.read(r"C:\Users\liu_z\Talent_python\chad_output_file_2019_01_24.csv",skiprows = 0,keep_default_na = True,header=0,dtype = float)
 #year,group,cohort,occnum,dataNumPeople,dataEarnings,dataEducation,dataWage,dataLnEarn_arith,dataLnEarn_geo,dataLnWage_arith,dataLnWage_geo,datavar_lninc,datavar_lnwage=textread(fname,fmt,"headerlines",1,"delimiter",",","emptyvalue",NaN,nargout=14)
-
 year = file.year
 group= file.group
 cohort= file.cohort
@@ -93,45 +97,52 @@ AllEarnings=copy(AllNumPeople)
 
 
 
-def find(lst, a, b):
+function find(lst, a, b)
     result = 0
-    for i, x in enumerate(lst):
-        if x == a[b]:
+    for (i, x) in enumerate(lst)
+        if x == a[b]
             result = i
+        end
+    end
     return result
+end
 #function as find() in matlab
 
-for i in range(0,Nrecords):
-    if cohort[i] != 0:
-        if group[i] == 0:
-                AllEducation[int(occnum[i]-1),int(cohort[i]-1),find(Decades,year,i)]=dataEducation[i]
-                AllNumPeople[int(occnum[i]-1),int(cohort[i]-1),find(Decades,year,i)]=dataNumPeople[i]
-                AllEarnings[int(occnum[i]-1),int(cohort[i]-1),find(Decades,year,i)]=dataEarnings[i]
-        else:
-            if year[i] > 1950:
+for i in range(1,Nrecords)
+    if cohort[i] != 0
+        if group[i] == 0
+                AllNumPeople[occnum[i],cohort[i],find(Decades,year,i)]=dataNumPeople[i]
+                AllEarnings[occnum[i],cohort[i],find(Decades,year,i)]=dataEarnings[i]
+                AllEducation[occnum[i],cohort[i],find(Decades,year,i)]=dataEducation[i]
+        else
+            if year[i] > 1950
                 decindx= find(Decades,year,i)
-                NumPeople[int(occnum[i]-1),int(group[i]-1),int(cohort[i]-1),decindx]=dataNumPeople[i]
-                if dataEarnings[i] == 0:
-                    dataEarnings[i]=math.nan
-                EarningsNominal[int(occnum[i]-1),int(group[i]-1),int(cohort[i]-1),decindx]=dataEarnings[i]
-                Earnings[int(occnum[i]-1),int(group[i]-1),int(cohort[i]-1),decindx]=dataEarnings[i]/pce[decindx]*pce[Nyears-1]
-                Education[int(occnum[i]-1),int(group[i]-1),int(cohort[i]-1),decindx]=dataEducation[i]
-                WageNominal[int(occnum[i]-1),int(group[i]-1),int(cohort[i]-1),decindx]=dataWage[i]
-                Wage[int(occnum[i]-1),int(group[i]-1),int(cohort[i]-1),decindx]=dataWage[i]/pce[decindx]*pce[Nyears-1]
-                Earn_arith[int(occnum[i]-1),int(group[i]-1),int(cohort[i]-1),decindx]=math.exp(dataLnEarn_arith[i]) / pce[decindx]*pce[Nyears-1]
-                Earn_geo[int(occnum[i]-1),int(group[i]-1),int(cohort[i]-1),decindx]=math.exp(dataLnEarn_geo[i]) / pce[decindx]*pce[Nyears-1]
-                Var_lnIncome[int(occnum[i]-1),int(group[i]-1),int(cohort[i]-1),decindx]=datavar_lninc[i]
-                Var_lnWage[int(occnum[i]-1),int(group[i]-1),int(cohort[i]-1),decindx]=datavar_lnwage[i]
-
-
+                NumPeople[occnum[i],group[i],cohort[i],decindx]=dataNumPeople[i]
+                if dataEarnings[i] == 0
+                    dataEarnings[i]=NaN
+                end
+                EarningsNominal[occnum[i],group[i],cohort[i],decindx]=dataEarnings[i]
+                Earnings[occnum[i],group[i],cohort[i],decindx]=dataEarnings[i]/pce[decindx]*pce[Nyears]
+                Education[occnum[i],group[i],cohort[i],decindx]=dataEducation[i]
+                WageNominal[occnum[i],group[i],cohort[i],decindx]=dataWage[i]
+                Wage[occnum[i],group[i],cohort[i],decindx]=dataWage[i]/pce[decindx]*pce[Nyears]
+                Earn_arith[occnum[i],group[i],cohort[i],decindx]=exp(dataLnEarn_arith[i]) / pce[decindx]*pce[Nyears]
+                Earn_geo[occnum[i],group[i],cohort[i],decindx]=exp(dataLnEarn_geo[i]) / pce[decindx]*pce[Nyears]
+                Var_lnIncome[occnum[i],group[i],cohort[i],decindx]=datavar_lninc[i]
+                Var_lnWage[occnum[i],group[i],cohort[i],decindx]=datavar_lnwage[i]
+            end
+        end
+    end
+end 
+    
 
 
 # Shut off any earnings in the Home sector -- remnants of Erik"s program 7/25/16
-#AllEarnings[0,:,:]=math.nan
-EarningsNominal[1,:,:,:]=NaN
-Earnings[1,:,:,:]=NaN
-Earn_arith[1,:,:,:]=NaN
-Earn_geo[1,:,:,:]=NaN
+AllEarnings[1,:,:,:].=NaN
+EarningsNominal[1,:,:,:].=NaN
+Earnings[1,:,:,:].=NaN
+Earn_arith[1,:,:,:].=NaN
+Earn_geo[1,:,:,:].=NaN
 
 
 
@@ -140,37 +151,37 @@ Earn_geo[1,:,:,:]=NaN
 # Compute p == fraction of WW in Cohort 3 in 2000 who are lawyers
 # ###############################################################
 
-p=np.zeros(NumPeople.shape)
+p=zeros(size(NumPeople))
 # Treat "NaN as 0 for purposes of computing p
-xNumPeople=np.copy(NumPeople)
-xNumPeople[np.isnan(xNumPeople)]=0
-total=np.sum(xNumPeople,axis=0)
+xNumPeople=copy(NumPeople)
+xNumPeople=coalesce.(xNumPeople, 0)
+total=sum(xNumPeople,dims= 1)
+
+total=dropdims(total;dims=1)
+for i in range(1,Noccs)
+    p[i,:,:,:]=xNumPeople[i,:,:,:]./total
+end
 
 
-for i in range(0,Noccs):
-    #p[i]=np.divide(xNumPeople[i] , total)
-    p[i]=xNumPeople[i]/total
-
-pDataYWM = np.zeros((Noccs,Nyears))
+pDataYWM = zeros(Noccs,Nyears)
 #where does pDataYWM come from?
 
 
 # pDataYWM -- p in the data for Young WM
-for t in range(0,Nyears):
-     pDataYWM[:,t]=p[:,0,5-t,t]
-
+for t in range(1,Nyears)
+     pDataYWM[:,t]=p[:,1,7-t,t]
+end
 
 # #########################################################################
 # Compute q(g,c,t) == fraction of Population who are WW in Cohort 3 in 2000 
 # #########################################################################
-import math
-xNumPeople_t=sum(np.squeeze(sum(sum(xNumPeople))))
-xNumPeople_gct=np.squeeze(sum(xNumPeople))
-q=np.zeros((Ngroups,Ncohorts,Nyears)) * math.nan
+xNumPeople_t=dropdims(sum(sum(dropdims(sum(sum(xNumPeople;dims=1);dims=1);dims=1);dims=1);dims=2);dims=1)
+xNumPeople_gct=dropdims(sum(xNumPeople;dims=1);dims=1)
+q=zeros(Ngroups,Ncohorts,Nyears) * NaN
 
-for t in range(0,Nyears):
-    q[:,:,t]=np.squeeze(xNumPeople_gct[:,:,t]) / xNumPeople_t[t]
-
+for t in range(1,Nyears)
+    q[:,:,t]=xNumPeople_gct[:,:,t] / xNumPeople_t[t]
+end
 
 # Adjust Earnings if WageGapAdjustmentFactor=1/2 or Zero.
 #  That is, Earnings = (1-WageGapAdjustmentFactor)*Earnings(WM) + WageGapAdjustmentFactor*Earnings(g)
@@ -184,26 +195,28 @@ for t in range(0,Nyears):
 
 
 
-for g in range(0,Ngroups):
-    Earnings[:,g,:,:]=np.dot((1 - WageGapAdjustmentFactor),Earnings[:,WM-1,:,:]) + np.dot(WageGapAdjustmentFactor,Earnings[:,g,:,:])
-    Wage[:,g,:,:]=np.dot((1 - WageGapAdjustmentFactor),Wage[:,WM-1,:,:]) + np.dot(WageGapAdjustmentFactor,Wage[:,g,:,:])
-    Earn_arith[:,g,:,:]=np.dot((1 - WageGapAdjustmentFactor),Earn_arith[:,WM-1,:,:]) + np.dot(WageGapAdjustmentFactor,Earn_arith[:,g,:,:])
-    Earn_geo[:,g,:,:]=np.dot((1 - WageGapAdjustmentFactor),Earn_geo[:,WM-1,:,:]) + np.dot(WageGapAdjustmentFactor,Earn_geo[:,g,:,:])
+for g in range(1,Ngroups)
+    Earnings[:,g,:,:]=(1-WageGapAdjustmentFactor)*Earnings[:,WM,:,:] + WageGapAdjustmentFactor*Earnings[:,g,:,:]
+    Wage[:,g,:,:]=(1-WageGapAdjustmentFactor)*Wage[:,WM,:,:] + WageGapAdjustmentFactor*Wage[:,g,:,:]
+    Earn_arith[:,g,:,:]=(1-WageGapAdjustmentFactor)*Earn_arith[:,WM,:,:] + WageGapAdjustmentFactor*Earn_arith[:,g,:,:]
+    Earn_geo[:,g,:,:]=(1-WageGapAdjustmentFactor)*Earn_geo[:,WM,:,:] + WageGapAdjustmentFactor*Earn_geo[:,g,:,:]
+end
 
-
-Wage[0,:,:,:] = math.nan
+Wage[1,:,:,:] .= NaN
 
 # Education YWM for calibrating phiFARM
-EducationYWM=np.zeros((Noccs,Nyears))
+EducationYWM=zeros(Noccs,Nyears)
 
-for t in range(0,Nyears):
-    EducationYWM[:,t]=Education[:,0,5 - t,t]
+for t in range(1,Nyears)
+    EducationYWM[:,t]=Education[:,1,7 - t,t]
+end
 
+print(" ")
+print("Education of Young WM\n")
+print("                    1960       1970     1980      1990     2000    2010\n")
 
-fprintf(" ")
-fprintf("Education of Young WM")
-#cshow(ShortNames,EducationYWM,"%8.4f","1960 1970 1980 1990 2000 2010")
-fprintf(" ")
+display(cat(ShortNames,EducationYWM;dims=2))
+print(" ")
 
 
 # disp " ";
@@ -224,6 +237,5 @@ fprintf(" ")
 # Now call LookatCohortData to create some graphs
 # and save the data for estimation.
 
-#LookatCohortData
-logging.shutdown()
+# LookatCohortData
 
