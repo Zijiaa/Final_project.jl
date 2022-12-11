@@ -66,6 +66,7 @@ Noccs=67
 Ngroups=4
 Ncohorts=8
 Decades=[1960,1970,1980,1990,2000,2010]'
+Decades=reduce(vcat,(Decades))
 
 Nyears=length(Decades)
 NumPeople=zeros(Noccs,Ngroups,Ncohorts,Nyears)
