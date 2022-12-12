@@ -1,7 +1,4 @@
 
-X=log.(tauhat_y_cleaned[:,:,t])
-Y=reshape(meanlogtau[t,:],4,1)
-
 function chadminus(X,Y)
 
 # % 	The dot minus of Gauss -- matlab need exact dimensions.

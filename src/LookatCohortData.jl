@@ -236,10 +236,10 @@ ols(changewage,cat(ones(Noccs,1),changelogp,dims=2),"ols: Changes","Dlogwagegap"
 # % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # % Var_lnIncome and Var_lnWage versus Relative Propensity Graphs 
 # % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-# if 'CaseName' in locals():
-#     if CaseName =='BenchMark':
-#         exec(open('Variance_IncomeWages.py').read())
 
+# if CaseName =='BenchMark':
+#     exec(open('Variance_IncomeWages.py').read())
+# end
 
 # % tauhat -- wage gap by Occupation/group/cohort/year...
 # %   

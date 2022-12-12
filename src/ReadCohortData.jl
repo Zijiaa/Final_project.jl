@@ -13,9 +13,9 @@ using DataFrames
 
 
 if ~@isdefined CaseName
-    println("What would you like to call the CaseName?\n")
+    println("What would you like to call the CaseName?")
     CaseName = readline()
-    println("CaseName=\n ",CaseName,'\n')
+    println("CaseName= ",CaseName)
 end
 
 
@@ -213,8 +213,8 @@ for t in range(1,Nyears)
 end
 
 println(" ")
-println("Education of Young WM\n")
-println("                    1960       1970     1980      1990     2000    2010\n")
+println("Education of Young WM")
+println("                    1960       1970     1980      1990     2000    2010")
 
 display(cat(ShortNames,EducationYWM;dims=2))
 println(" ")
