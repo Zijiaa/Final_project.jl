@@ -15,7 +15,7 @@ using DataFrames
 if ~@isdefined CaseName
     println("What would you like to call the CaseName?\n")
     CaseName = readline()
-    print("CaseName=\n ",CaseName,'\n')
+    println("CaseName=\n ",CaseName,'\n')
 end
 
 
@@ -81,7 +81,7 @@ Wage_arith=copy(NumPeople)
 Wage_geo=copy(NumPeople)
 Var_lnIncome=copy(NumPeople)
 Var_lnWage=copy(NumPeople)
-print("Putting earnings / wage in \$2009 constant using PCE Deflator")
+println("Putting earnings / wage in \$2009 constant using PCE Deflator")
 # See PCEDeflatorNIPA.txt from https://research.stlouisfed.org/fred2/series/DPCERD3A086NBEA
 pce=[17.535,22.311,43.959,67.44,83.131,101.653]
 
@@ -212,12 +212,12 @@ for t in range(1,Nyears)
     EducationYWM[:,t]=Education[:,1,7 - t,t]
 end
 
-print(" ")
-print("Education of Young WM\n")
-print("                    1960       1970     1980      1990     2000    2010\n")
+println(" ")
+println("Education of Young WM\n")
+println("                    1960       1970     1980      1990     2000    2010\n")
 
 display(cat(ShortNames,EducationYWM;dims=2))
-print(" ")
+println(" ")
 
 
 # disp " ";

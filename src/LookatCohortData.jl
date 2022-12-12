@@ -70,15 +70,15 @@ NumPeople_gt=dropdims(nansum(NumPeople_igt,dims=1),dims=1)
 
 # EARNINGS 
 AggEarningsperPerson=dropdims(dropdims(nansum(nansum(nansum(AggIncomeData,dims=1),dims=2),dims=3),dims=1),dims=1)'./NumPeoplet
-print("Total earnings per person")
-print("Decade            Earnings")
+println("Total earnings per person")
+println("Decade            Earnings")
 display(cat(Decades,AggEarningsperPerson;dims=2))
 
 
 Earn=copy(AggEarningsperPerson)
-print("   \n")
-print("Average growth rates of Earnings\n")
-print("---------------------------\n")
+println("   \n")
+println("Average growth rates of Earnings\n")
+println("---------------------------\n")
 g=log.(Earn[2:end]./Earn[1:end-1])./(Decades[2:end]-Decades[1:(end-1)])
 gAll=log(Earn[end]/Earn[1])/(2010-1960)
 yr0=copy(Decades)
@@ -89,38 +89,38 @@ display(cat(yr0,yrT,cat(g,gAll,dims=1);dims=2))
 
 # EARNINGS by group
 AggEarningsperPerson_g=(AggIncomeData_gt./NumPeople_gt)'
-print("  \n")
-print("Total earnings per person by group\n")
-print("Decade     WM       WW        BM        BW\n")
+println("  \n")
+println("Total earnings per person by group\n")
+println("Decade     WM       WW        BM        BW\n")
 display(cat(Decades,AggEarningsperPerson_g,dims=2))
 
 Earn_g=copy(AggEarningsperPerson_g)
 
-print("   \n")
-print("Average growth rates of Earnings by Group\n")
-print("---------------------------\n")
+println("   \n")
+println("Average growth rates of Earnings by Group\n")
+println("---------------------------\n")
 
 g=log.(Earn_g[2:end,:]./Earn_g[1:end-1,:])./(Decades[2:end]-Decades[1:(end-1)])
 gAll_g=(log.(Earn_g[end,:]./Earn_g[1,:])/(2010-1960))'
 yr0=copy(Decades)
 yr0[end]=1960
 yrT=vcat(Decades[2:end],2010)
-print("Year0       YearT        WM       WW        BM        BW\n")
+println("Year0       YearT        WM       WW        BM        BW\n")
 
 display(cat(yr0,yrT,cat(g,gAll_g,dims=1);dims=2))
 
 
-print(" \n")
-print("================================\n")
-print("BACK OF THE ENVELOPE CALCULATION\n")
-print("================================\n")
-print("   \n")
+println(" \n")
+println("================================\n")
+println("BACK OF THE ENVELOPE CALCULATION\n")
+println("================================\n")
+println("   \n")
 
-print("Growth rate of all people:",gAll,"\n")
-print("Growth rate of    WM     : ",gAll_g[1],"\n")
+println("Growth rate of all people:",gAll,"\n")
+println("Growth rate of    WM     : ",gAll_g[1],"\n")
 BOFEshare=1-gAll_g[1]/gAll
-print("Rough share of growth from closing gaps: ",BOFEshare,"\n")
-print("   \n")
+println("Rough share of growth from closing gaps: ",BOFEshare,"\n")
+println("   \n")
 
 
 # EARNINGS YOUNG
@@ -128,9 +128,9 @@ for t in range(1,Nyears)
     AggIncomeDataYoung[t]=nansum(AggIncomeData[:,:,7-t,t])
     NumYoung[t]=nansum(NumPeople[:,:,7-t,t])
 end
-print(" \n")
-print("Earnings of Young: Per total population and Per person\n")
-print("Year   PerTotalPop    PerYoung   Young\n")
+println(" \n")
+println("Earnings of Young: Per total population and Per person\n")
+println("Year   PerTotalPop    PerYoung   Young\n")
 display(cat(Decades,AggIncomeDataYoung./NumPeoplet,AggIncomeDataYoung./NumYoung,NumYoung./NumPeoplet*100,dims=2))
 
 
@@ -152,8 +152,8 @@ end
 if @isdefined Wage
     Wage_controls=copy(Wage)
     WageNominal_controls= copy(WageNominal)
-    Wage = nothing
-    WageNominal = nothing # To avoid confusion Wage_control is a regression residual
+    Wage = 0
+    WageNominal = 0
 end
 # WageBar=GammaBar/GammaBase*Earnings % Using *inflated* Arithmetic mean for WageBar for now.
 
@@ -191,7 +191,7 @@ occwagegaps1980=-log.(WageBar[:,WW,cYMO80,t80]./WageBar[:,WM,cYMO80,t80])
 
 
 
-print("               RelP             Gap")
+println("               RelP             Gap")
 
 display(cat(ShortNames,relpWW80,occwagegaps1980,dims=2))
 
@@ -225,7 +225,7 @@ changelogp=log.(relpWW10)-log.(relpWW60)
 
 
 
-print("                 DlnRelP             DlnGap")
+println("                 DlnRelP             DlnGap")
 
 display(cat(ShortNames,changelogp,changewage,dims=2))
 
@@ -254,12 +254,12 @@ ols(changewage,cat(ones(Noccs,1),changelogp,dims=2),"ols: Changes","Dlogwagegap"
 # %     tauhat(i,:,:,:)=squeeze(relp(i,:,:,:)).^(-1/theta) .* wagegap.^(-(1-eta))
 # % end
 
-print("   \n")
-print("   \n")
-print("Computing tauhat for *all* c,t:   tauhat=relp.^(-(1-dlta)/theta) .* wagegap.^(-(1-eta))\n")
-print("just to see what they look like. We only use the Young (c,c) version.\n")
-print("This version ignores the Tbar/gamma stuff. But for baseline case and Young = correct.\n")
-print("    \n")
+println("   \n")
+println("   \n")
+println("Computing tauhat for *all* c,t:   tauhat=relp.^(-(1-dlta)/theta) .* wagegap.^(-(1-eta))\n")
+println("just to see what they look like. We only use the Young (c,c) version.\n")
+println("This version ignores the Tbar/gamma stuff. But for baseline case and Young = correct.\n")
+println("    \n")
 tauhat_all=relp.^(-(1-dlta)/theta) .* wagegap.^(-(1-eta))
 tauhat_all[1,:,:,:].=1 # Fix HOME
 
@@ -275,33 +275,33 @@ tauhat_y=copy(tauhat) # legacy
 # % Copying code from EstimateTauZ to fix missing tauhat_y for use in NoBrawny case
 # % (where we use tauhat_y to infer T(i,g) to eliminate frictions)
 # % Fix missing values in a systematic way
-print("     \n")
-print("===========================================================\n")
-print("Fixing tauhat missing values --> tauhat_y_cleaned (just for robustness cases)\n")
-print(" -- Use first non-missing value\n")
-print("      \n")
-print("===========================================================\n")
+println("     \n")
+println("===========================================================\n")
+println("Fixing tauhat missing values --> tauhat_y_cleaned (just for robustness cases)\n")
+println(" -- Use first non-missing value\n")
+println("      \n")
+println("===========================================================\n")
 # tauhat_y
 tauhat_y_cleaned=copy(tauhat)
 for g in range(2,Ngroups)
-    print("                     ")
-    print("*********************")
-    print(GroupNames[g])
-    print("*********************") 
-    print("                     ")
+    println("                     \n")
+    println("*********************\n")
+    println(GroupNames[g],'\n')
+    println("*********************\n") 
+    println("                     \n")
     for i in range(2,Noccs)
-        # tauhat_y
-        missingtauhat_y_cleaned=np.logical_or(np.isnan(np.squeeze(tauhat_y_cleaned[i,g,:])), np.isinf(np.squeeze(tauhat_y_cleaned[i,g,:])))
-
-        if all(missingtauhat_y_cleaned): 
-            print ('All tauhat_y_cleaned missing. Stopping...' )
-            ipdb.set_trace()
-        elif any(missingtauhat_y_cleaned):
-            print(['tauhat_y_cleaned ' ,ShortNames[i]],np.squeeze(tauhat_y_cleaned[i,g,:]).T)
-            tauhat_y_cleaned[i,g,:]=fixmissing(np.squeeze(tauhat_y_cleaned[i,g,:]),missingtauhat_y_cleaned)
-            print(['tauhat_y_cleaned ', ShortNames[i]],np.squeeze(tauhat_y_cleaned[i,g,:]).T)
-
-
+        missingtauhat_y_cleaned=isnan.(tauhat_y_cleaned[i,g,:]) + isinf.(tauhat_y_cleaned[i,g,:]) 
+        missingtauhat_y_cleaned = Vector{Bool}(missingtauhat_y_cleaned) 
+        if all(missingtauhat_y_cleaned)
+            println("All tauhat_y_cleaned missing. Stopping...\n" )
+            println("Something goes wrong")
+        elseif any(missingtauhat_y_cleaned)
+            println(["tauhat_y_cleaned " ,ShortNames[i]],tauhat_y_cleaned[i,g,:]',"\n")
+            tauhat_y_cleaned[i,g,:]=fixmissing(tauhat_y_cleaned[i,g,:],missingtauhat_y_cleaned)
+            println(["tauhat_y_cleaned ", ShortNames[i]],tauhat_y_cleaned[i,g,:]',"\n")
+        end 
+    end
+end 
 
 
 
@@ -313,21 +313,21 @@ occSal=21+1
 occSec=22+1
 occFoo=36+1
 occCst=47+1
-myoccs=np.array((occDoc, occLaw ,occSec ,occCst ,occTea))
+myoccs=[occDoc, occLaw ,occSec ,occCst ,occTea]
+
+ShortNames=hcat(ShortNames)
 
 
-ShortNames=np.array(ShortNames)
 # Doctors Lawyer Home Secretaries
 # ytle='{\bf Barrier measure, $$\hat\tau$$}'
 # ytle='Composite barrier, \tau'
 # ytle='Composite barrier'
 # if HighQualityFigures ytle=' ' end
-for g in range(1,Ngroups):
-    print(GroupNames[g])
-    print('1960 1970 1980 1990 2000 2010')
-    print(np.concatenate((np.reshape((ShortNames[myoccs-1]).T,(5,1)),np.squeeze(tauhat_y[myoccs-1,g,:])),axis=1))
-
-
+for g in range(2,Ngroups)
+    println(GroupNames[g],'\n')
+    println("                  1960      1970      1980      1990      2000      2010\n")
+    display(cat(ShortNames[myoccs],tauhat_y[myoccs,g,:],dims=2))
+end
 
     
     
@@ -336,72 +336,74 @@ for g in range(1,Ngroups):
 # % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-meannames='MeanTauHat'
-varnames='VarTauHat'
-relpnames='StdlnRelP'
-gapnames='StdWageGap'
-Mkt=range(1,Noccs)
-
-meantau = np.empty((Nyears,4))
-meanlogtau= np.empty((Nyears,4))
-varlogtau = np.empty((Nyears,4))
-lnrelp_young=np.empty((67,4,Nyears))
-std_relp_young=np.empty((Nyears,4))
-wage_young=np.empty((67,4,Nyears))
-gap=np.empty((67,4,Nyears))
-std_wagegap=np.empty((Nyears,4))
-earningsweights_avg = np.reshape(earningsweights_avg,(67,1))
-for t in range(0,Nyears):
-    meantau[t,:]=np.nansum(np.multiply(tauhat_y_cleaned[:,:,t],earningsweights_avg),axis=0)
-    meanlogtau[t,:]=np.nansum(np.multiply(np.log(tauhat_y_cleaned[:,:,t]),earningsweights_avg),axis=0)
-    
-    diff=chadminus(np.log(tauhat_y_cleaned[:,:,t]),np.reshape(meanlogtau[t,:],(1,4)))
-    varlogtau[t,:]=np.nansum(np.multiply(diff**2,earningsweights_avg),axis=0)
-
+meannames="MeanTauHat"
+varnames="VarTauHat"
+relpnames="StdlnRelP"
+gapnames="StdWageGap"
+Mkt=range(2,Noccs)
+meantau=Array{Float64}(undef, Nyears,4)
+meanlogtau=Array{Float64}(undef, Nyears,4)
+varlogtau=Array{Float64}(undef, Nyears,4)
+lnrelp_young=Array{Float64}(undef, 67,4,Nyears)
+std_relp_young=Array{Float64}(undef, Nyears,4)
+wage_young=Array{Float64}(undef, 67,4,Nyears)
+gap=Array{Float64}(undef, 67,4,Nyears)
+std_wagegap=Array{Float64}(undef, Nyears,4)
+# varlogtau = np.empty((Nyears,4))
+# lnrelp_young=np.empty((67,4,Nyears))
+# std_relp_young=np.empty((Nyears,4))
+# wage_young=np.empty((67,4,Nyears))
+# gap=np.empty((67,4,Nyears))
+# std_wagegap=np.empty((Nyears,4))
+# earningsweights_avg = np.reshape(earningsweights_avg,(67,1))
+for t in range(1,Nyears)
+    meantau[t,:]=nansum(tauhat_y_cleaned[:,:,t].*earningsweights_avg,dims=1)
+    meanlogtau[t,:]=nansum(log.(tauhat_y_cleaned[:,:,t]).*earningsweights_avg,dims=1)
+    diff=chadminus(log.(tauhat_y_cleaned[:,:,t]),reshape(meanlogtau[t,:],4,1))
+    varlogtau[t,:]=nansum(diff.^2 .*earningsweights_avg,dims=1)
 
     # std of log(relp)
-    
-    lnrelp_young[:,:,t]=np.log(relp[:,:,5-t,t])
-    lnrelp_young[np.isinf(lnrelp_young)]=math.nan
-    lnrelp_young[np.isnan(lnrelp_young)]=math.log(0.001) #min(nanmin(lnrelp_young(:,:,t)))
-    meanrelp=np.nansum(np.multiply(lnrelp_young[:,:,t],earningsweights_avg),axis=0)
-    meanrelp = np.reshape(meanrelp,(1,4))
-    diff=chadminus(lnrelp_young[:,:,t],meanrelp)
-    std_relp_young[t,:]=np.sqrt(np.nansum(np.multiply(diff**2,earningsweights_avg),axis=0))
+    lnrelp_young[:,:,t]=log.(relp[:,:,7-t,t])
+    lnrelp_young[isinf.(lnrelp_young)].=NaN
+    lnrelp_young[isnan.(lnrelp_young)].=log(0.001) #min(nanmin(lnrelp_young(:,:,t)))
+    meanrelp=nansum(lnrelp_young[:,:,t].*earningsweights_avg,dims=1)
+    diff=chadminus(lnrelp_young[:,:,t],meanrelp')
+    std_relp_young[t,:]=sqrt.(nansum(diff.^2 .*earningsweights_avg,dims=1))
+
 
     # std of gap := log(wage ratio)
-    wage_young[:,:,t]=Earnings[:,:,5-t,t]
-    gap[:,:,t]=np.log(((wage_young[:,:,t]).T/(wage_young[:,WM-1,t])).T)
-    gap[np.isinf(gap)]=math.nan
-    missinggap=np.isnan(gap[:,:,t])
-    missinggap[0,:]=0
-    meangap=np.nansum(np.multiply(gap[:,:,t],earningsweights_avg),axis=0)
-    meangap=np.reshape(meangap,(1,4))
-    gap[missinggap[:,WW-1],WW-1,t]=meangap[:,WW-1] # nanmean(gap(~missinggap(:,WW),WW,t))
-    gap[missinggap[:,BM-1],BM-1,t]=meangap[:,BM-1] # nanmean(gap(~missinggap(:,BM),BM,t))
-    gap[missinggap[:,BW-1],BW-1,t]=meangap[:,BW-1] # nanmean(gap(~missinggap(:,BW),BW,t))
-    diff=chadminus(gap[:,:,t],meangap)
-    std_wagegap[t,:]=np.sqrt(np.nansum(np.multiply(diff**2,earningsweights_avg),axis=0))
+    wage_young[:,:,t]=Earnings[:,:,7-t,t]
+    gap[:,:,t]=log.(((wage_young[:,:,t])./(wage_young[:,WM,t])))
+    gap[isinf.(gap)].=NaN
+    missinggap=isnan.(gap[:,:,t])
+    missinggap[1,:].=0
+    missinggap = Matrix{Bool}(missinggap) 
+    meangap=nansum(gap[:,:,t].*earningsweights_avg,dims=1)
 
+
+    gap[missinggap[:,WW],WW,t].=meangap[:,WW] # nanmean(gap(~missinggap(:,WW),WW,t))
+    gap[missinggap[:,BM],BM,t].=meangap[:,BM] # nanmean(gap(~missinggap(:,BM),BM,t))
+    gap[missinggap[:,BW],BW,t].=meangap[:,BW] # nanmean(gap(~missinggap(:,BW),BW,t))
+    diff=chadminus(gap[:,:,t],meangap')
+    std_wagegap[t,:]=sqrt.(nansum(diff.^2 .*earningsweights_avg,dims=1))
+end
 
     
 
 
 
+tle="Stdev of log(relp) across occupations"
+println(" \n") 
+println(tle,"\n")
+println( "Year      WM      WW       BM       BW\n")
+display(cat(Decades,std_relp_young,dims=2))
 
-print (' ') 
-print(tle)
-print( 'Year    WM    WW    BM    BW')
-print(np.concatenate((np.reshape(Decades,(6,1)),std_relp_young),axis=1))
 
-
-tle='Stdev of log(Wage Gap) across occupations'
-# title(tle)
-# print('-dpsc','-append',pname3)
-print (' ') 
-print(tle)
-print( 'Year    WM    WW    BM    BW')
-print(np.concatenate((np.reshape(Decades,(6,1)),std_wagegap),axis=1))
+tle="Stdev of log(Wage Gap) across occupations"
+println(" \n") 
+println(tle,"\n")
+println( "Year      WM      WW       BM       BW\n")
+display(cat(Decades,std_wagegap,dims=2))
 
    
     
