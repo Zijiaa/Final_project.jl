@@ -1,4 +1,4 @@
-# amazing_final_project
+# Final_project
 
 [![Build Status](https://github.com/Zijiaa/amazing_final_project.jl/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/Zijiaa/amazing_final_project.jl/actions/workflows/CI.yml?query=branch%3Amaster)
 
