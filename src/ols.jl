@@ -1,9 +1,8 @@
-
 using LinearAlgebra
 
 function ols(y,x,title,depv,indv,prevest)
      if all(x[:,1].!=1)
-        println("No constant term in regression")
+        print("No constant term in regression")
     end
     if (@isdefined prevest) && prevest !=1
         prevest = 0
@@ -24,7 +23,7 @@ function ols(y,x,title,depv,indv,prevest)
     data = packr(data)
 
     if size(data)[1] != N
-        println("Missing values encountered")
+        print("Missing values encountered")
         y = data[:,1]
         x = data[:,2:end]
         (N,K)=size(x)
@@ -43,7 +42,7 @@ function ols(y,x,title,depv,indv,prevest)
     ybar  = 1/N*(ones(N,1)'*y)
     rsq   = 1 .- (u'*u)./([y'*y] .- N*ybar.^2)
     rbar  = 1 .- [sigma2]./(([y'*y] .- N*ybar.^2)./(N-1))
-    
+
     robvcv=zeros(K,K);
     for i=1:N
         robvcv = robvcv .+ u[i]^2*x[i,:]'.*x[i,:]
@@ -52,38 +51,38 @@ function ols(y,x,title,depv,indv,prevest)
     roberr = sqrt(Diagonal(robvcv))
     trob   = beta./roberr
 
-    println("=============================================================================\n")
-    println(" \n")
-    println(" ")
-    println("         ------------------------------------------------------------\n")
-    println("                   ", title, "\n")
-    println("         ------------------------------------------------------------\n")
-    println(" \n")
-    println("       NOBS:  ", N,"                Dependent Variable: ",depv,"\n")
-    println("   RHS Vars: ", K,"\n")
-    println("    D of F:  ", dof, "\n");
-    println(" ")
-    println("  R-Squared:  ", rsq,'\n')
-    println("                        S.E.E.:  ", stdest, "\n")
-    println("     RBar^2:  ", rbar,'\n')
-    println("                   Residual SS:  ", u'*u, "\n")
-    println(" ")
-    println("                             Standard              Robust     Robust\n")
-    println("Variable          Beta         Error    t-stat      Error     t-stat\n")
-    println("--------          ----       --------   ------     ------     ------\n")
-    println(" \n")
+    print("=============================================================================\n")
+    print(" \n")
+    print(" ")
+    print("         ------------------------------------------------------------\n")
+    print("                   ", title, "\n")
+    print("         ------------------------------------------------------------\n")
+    print(" \n")
+    print("       NOBS:  ", N,"                Dependent Variable: ",depv,"\n")
+    print("   RHS Vars: ", K,"\n")
+    print("    D of F:  ", dof, "\n");
+    print(" ")
+    print("  R-Squared:  ", rsq,'\n')
+    print("                        S.E.E.:  ", stdest, "\n")
+    print("     RBar^2:  ", rbar,'\n')
+    print("                   Residual SS:  ", u'*u, "\n")
+    print(" ")
+    print("                             Standard              Robust     Robust\n")
+    print("Variable          Beta         Error    t-stat      Error     t-stat\n")
+    print("--------          ----       --------   ------     ------     ------\n")
+    print(" \n")
     results=cat(beta, diag(se) ,diag(tstat), diag(roberr),diag(trob),dims = 2)
 
 
 
     for i in range(1,K)
-        println(indv[i,:],"       ")
-        println(results[i,:],'\n')
-        println('\n')
+        print(indv[i,:],"       ")
+        print(results[i,:],'\n')
+        print('\n')
     end
-    println(" \n")
-    println(" \n")
-    println("=============================================================================\n")
+    print(" \n")
+    print(" \n")
+    print("=============================================================================\n")
 
 
 

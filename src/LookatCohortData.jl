@@ -406,8 +406,3 @@ println( "Year      WM      WW       BM       BW\n")
 display(cat(Decades,std_wagegap,dims=2))
 
    
-    
-# Note, clearing stuff...
-# clear data*
-# clear c Cohort i decindx fmt fname g group occnum tf tle total xNumPeople year yrs yy
-# save(['CohortData_' CaseName])

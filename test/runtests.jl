@@ -4,4 +4,4 @@ using Test
 
 using Test
 
-include("test1.jl")
+include("test_functions.jl")

@@ -11,9 +11,10 @@ function chadminus(X,Y)
         Z=X.-Y
     elseif n1==n2
         Z=X.-kron(Y',ones(1,k1))
-    else    
+    else k1==k2    
         Z=X.-kron(Y',ones(n1,1))
     end
+
     return Z
 end 
 
