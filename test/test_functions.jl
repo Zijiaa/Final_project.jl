@@ -1,7 +1,7 @@
 ###1###
 #test packr function
 using Test
-
+using LinearAlgebra
 @testset "packr.jl" begin
     X = ones(6,3)
     X[1,1]=NaN
