@@ -22,4 +22,4 @@ ShowParameters
 
 ReadCohortData
 
-LookatCohortData ( ols(vdummy,packr) , fixmissig, chadminus)
+LookatCohortData ( ols(vdummy,packr) , fixmissing, chadminus)
