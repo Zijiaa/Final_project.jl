@@ -11,3 +11,10 @@ This project is used as a personal practice for julia
 The original project contains 23 main modules and nearly 300 self-created sub-functions.
 
 So far, the calibration part, which corresponds to Section 3 in the paper, has been all done. 
+
+The modules should be run in the following order:
+Names67Occupations
+SetParameters
+ShowParameters
+ReadCohortData
+LookatCohortData ( ols(vdummy,packr) , fixmissig, chadminus)
