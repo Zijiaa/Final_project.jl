@@ -41,11 +41,4 @@ HalfExperience=0  ;   #% Default is WM and WW get same return to experience. Tur
 
 OccupationtoIdentifyWageHome=23 ;#% WageBarHome(WM)=WageBar(Secretaries,WM)
 
-ChainSingleCase=0; #% Turn on if we only wish to chain the TauWTauH case
-HighQualityFigures=0 ;#% Turn on to place labels in certain figures ==> programs wait for user input
-SameExperience=1;  #% Defaults is same returns to experience in all occs
-ConstantExperience=0 ;#% If 1, make the returns to experience constant over time
-ConstrainTauH=-0.8;  #% Lower bound on how negative TauH can get (meaningless if below -1). -999=unconstrained
-NumHomeDraws=[]; #% Legacy parameter, not used.
-PurgeWageGrowthSelection=0 ;#% Default is *not* to do anything here seems perverse
-EstimateDelta=0 ;#% Turn on to estimate delta using YWM wagehat vs p
+ChainSingleCase=0; #% Turn on if we only wisdims

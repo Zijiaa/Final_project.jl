@@ -6,8 +6,9 @@
 # % 1990 bw cohort 5 architects missing, whereas small #s in 1970 and 1980!
 
 
-using Pkg
-pkg"add https://github.com/brenhinkeller/NaNStatistics.jl.git"
+#using Pkg
+#pkg"add https://github.com/brenhinkeller/NaNStatistics.jl.git" 
+# NaNStatistics is registered, so you should not need to install from github, just add it to the Project.toml
 using NaNStatistics
 using Statistics
 using Printf
