@@ -10,7 +10,7 @@ Pkg.add("DataFrames")
 using CSV
 using DataFrames
 
-
+# like ShowParameters, it would be better to put this code in a function
 
 if ~@isdefined CaseName
     println("What would you like to call the CaseName?")
@@ -33,7 +33,7 @@ end
     
 #     # Version 6 code
 
-
+# if allowed, it would be better to include the data in the repository and use a relative path
 file = CSV.read("C:\\Users\\liu_z\\Talent_python\\chad_output_file_2019_01_24.csv", DataFrame)
 for c ∈ eachcol(file)
     replace!(c, missing => NaN)
